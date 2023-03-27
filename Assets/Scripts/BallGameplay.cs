@@ -1,56 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BallGameplay : MonoBehaviour
 {
     private Rigidbody2D _ball;
     private float _ballSpeed;
+    public static int ScoreSide;
 
     private void Start()
     {
         _ball = GetComponent<Rigidbody2D>();
-        _ballSpeed = 2.0f;
-        ResetBall();
+        _ballSpeed = 20.0f;
+        ScoreSide = -1;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.transform.CompareTag("RightGoal"))
         {
-            Debug.Log("Right Goal");
+            ScoreSide = 0;
+            UIController.UIInstance.ScoreUpdate();
             ResetBall();
         }
         if (collision.transform.CompareTag("LeftGoal"))
         {
-            Debug.Log("Left Goal");
+            ScoreSide = 1;
+            UIController.UIInstance.ScoreUpdate();
             ResetBall();
         }
         if (collision.transform.CompareTag("Stick"))
         {
-            BallMotion();
+            Vector2 vel;
+            vel.x = _ball.velocity.x;
+            vel.y = (_ball.velocity.y / 2) + (collision.collider.attachedRigidbody.velocity.y / 3);
+            _ball.velocity = vel;
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         BallMotion();
     }
 
-    private void ResetBall()
+    public void ResetBall()
     {
-        Transform currentBall;
-        currentBall = _ball.GetComponent<Transform>();
-
-        currentBall.position = new Vector2(0, 0);
-        currentBall.position = new Vector2(0, 0);
-
+        transform.position = new Vector2(0, 0);
         _ball.velocity = new Vector2(0, 0);
-        _ball.angularVelocity = 0;
     }
 
     private void BallMotion()
     {
-        _ball.AddForce(Vector2.right * _ballSpeed);
+        _ball.AddForce(new Vector2(1, 0) * _ballSpeed * Time.deltaTime);
     }
 }

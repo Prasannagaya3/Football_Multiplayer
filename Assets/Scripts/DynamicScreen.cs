@@ -1,13 +1,16 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class DynamicScreen : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer _gameBackground;
+    private SpriteRenderer _gameBackground;
     private Camera sceneCamera;
     private float screenRatio, targetRatio, differenceInHeight;
 
-    private void Start()
+    private void Awake()
     {
+        _gameBackground = GetComponent<SpriteRenderer>();
+
         sceneCamera = Camera.main;
 
         screenRatio = (float)Screen.width / (float)Screen.height;
