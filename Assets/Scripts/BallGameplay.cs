@@ -29,10 +29,7 @@ public class BallGameplay : MonoBehaviour
         }
         if (collision.transform.CompareTag("Stick"))
         {
-            Vector2 vel;
-            vel.x = _ball.velocity.x;
-            vel.y = (_ball.velocity.y / 2) + (collision.collider.attachedRigidbody.velocity.y / 3);
-            _ball.velocity = vel;
+
         }
     }
 
@@ -49,6 +46,6 @@ public class BallGameplay : MonoBehaviour
 
     private void BallMotion()
     {
-        _ball.AddForce(new Vector2(1, 0) * _ballSpeed * Time.deltaTime);
+        _ball.AddForce(Vector2.right * _ballSpeed * Time.deltaTime);
     }
 }

@@ -1723,6 +1723,8 @@ MonoBehaviour:
   - {fileID: 1920866721}
   - {fileID: 1986596051}
   GameTimerDisplay: {fileID: 928075505}
+  PlayerScoreDisplay: {fileID: 1928831734}
+  WinningMessage: {fileID: 164261087}
 --- !u!114 &851817961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1895,7 +1897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1028396639
 MonoBehaviour:
   m_ObjectHideFlags: 0

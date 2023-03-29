@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class UIController : MonoBehaviour
@@ -7,7 +6,7 @@ public class UIController : MonoBehaviour
     public static UIController UIInstance;
     [SerializeField] private GameObject[] UIPanel;
     [SerializeField] private TextMeshProUGUI[] PlayerScore;
-    [SerializeField] private TextMeshProUGUI GameTimerDisplay;
+    [SerializeField] private TextMeshProUGUI GameTimerDisplay, PlayerScoreDisplay, WinningMessage;
     private int leftScore, rightScore, scoreLimit;
 
     private void Awake()
@@ -17,7 +16,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        scoreLimit = 3;
+        scoreLimit = 1;
         UIPanelControl(0);
         ScoreReset();
     }
@@ -37,15 +36,9 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void Restart()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(0);
-    }
-
     public void ScoreUpdate()
     {
-        UIInstance.OnScreenScoreUpdate();
+       OnScreenScoreUpdate();
     }
 
     private void OnScreenScoreUpdate()
@@ -64,7 +57,6 @@ public class UIController : MonoBehaviour
         if (leftScore == scoreLimit || rightScore == scoreLimit)
         {
             UIPanelControl(1);
-
             ResultUpdate();
         }
     }
@@ -77,11 +69,30 @@ public class UIController : MonoBehaviour
         {
             PlayerScore[i].text = leftScore.ToString();
         }
+        PlayerScoreDisplay.text = leftScore.ToString();
+        WinningMessage.text = " ";
     }
 
     public void ResultUpdate()
     {
         GameplayManager.gameInstance.isGameRunning = false;
         GameTimerDisplay.text = GameplayManager.gameInstance.GameMins.ToString() + ":" + GameplayManager.gameInstance.GameSecs.ToString();
+
+        if(leftScore < rightScore)
+        {
+            PlayerScoreDisplay.text = rightScore.ToString();
+            WinningMessage.text = "Congratulation Right Player!!!";
+        }
+        else
+        {
+            PlayerScoreDisplay.text = leftScore.ToString();
+            WinningMessage.text = "Congratulation Left Player!!!";
+        }
+    }
+
+    public void RestartGame()
+    {
+        GameplayManager.gameInstance.Restart();
+        UIPanelControl(0);
     }
 }
