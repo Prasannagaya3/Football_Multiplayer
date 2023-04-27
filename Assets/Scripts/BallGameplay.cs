@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class BallGameplay : MonoBehaviour
 {
+    public static int ScoreSide;
+
     private Rigidbody2D _ball;
     private float _ballSpeed;
-    public static int ScoreSide;
 
     private void Start()
     {

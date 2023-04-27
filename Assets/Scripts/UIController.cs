@@ -4,9 +4,14 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     public static UIController UIInstance;
-    [SerializeField] private GameObject[] UIPanel;
-    [SerializeField] private TextMeshProUGUI[] PlayerScore;
-    [SerializeField] private TextMeshProUGUI GameTimerDisplay, PlayerScoreDisplay, WinningMessage;
+
+    [SerializeField] 
+    private GameObject[] UIPanel;
+    [SerializeField] 
+    private TextMeshProUGUI[] PlayerScore;
+    [SerializeField] 
+    private TextMeshProUGUI GameTimerDisplay, PlayerScoreDisplay, WinningMessage;
+
     private int leftScore, rightScore, scoreLimit;
 
     private void Awake()

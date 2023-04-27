@@ -8,6 +8,7 @@ public class GameplayManager : MonoBehaviour
     public PlayerGameplay[] PlayerManager;
     public bool isGameRunning;
     public float GameMins, GameSecs;
+
     private float GameTimer;
 
     private void Start()

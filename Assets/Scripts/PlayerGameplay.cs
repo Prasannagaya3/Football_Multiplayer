@@ -1,12 +1,25 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerGameplay : MonoBehaviour
 {
     public enum PlayerSelection{None, LeftPlayer, RightPlayer};
     public PlayerSelection currentPlayerDetails;
-
+    public InputAction CurrentPlayerAction;
+    public Vector2 PlayerMove;
+    
     private GameObject currentPlayer;
     private float playerMovementSpeed;
+
+    private void OnEnable()
+    {
+        CurrentPlayerAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        CurrentPlayerAction.Disable();
+    }
 
     private void Start()
     {
@@ -25,55 +38,18 @@ public class PlayerGameplay : MonoBehaviour
         {
             currentPlayer.name = "Right Player";
         }
+
+        PlayerMove = currentPlayer.GetComponent<Rigidbody2D>().velocity;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        PlayerMotion();
+        PlayerMove = CurrentPlayerAction.ReadValue<Vector2>();
+        currentPlayer.GetComponent<Rigidbody2D>().velocity = new Vector2(0, PlayerMove.y * playerMovementSpeed);
     }
 
     public void ResetPlayer()
     {
         currentPlayer.transform.position = new Vector3(currentPlayer.transform.position.x, 0, 0);
-    }
-
-    private void PlayerMotion()
-    {
-        if(currentPlayerDetails == PlayerSelection.LeftPlayer)
-        {
-            Vector2 playerMove = currentPlayer.GetComponent<Rigidbody2D>().velocity;
-
-            if (Input.GetKey(KeyCode.W))
-            {
-                playerMove.y = playerMovementSpeed;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                playerMove.y = -playerMovementSpeed;
-            }
-            else
-            {
-                playerMove.y = 0;
-            }
-            currentPlayer.GetComponent<Rigidbody2D>().velocity = playerMove;
-        }
-        else if(currentPlayerDetails == PlayerSelection.RightPlayer)
-        {
-            Vector2 playerMove = currentPlayer.GetComponent<Rigidbody2D>().velocity;
-
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                playerMove.y = playerMovementSpeed;
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                playerMove.y = -playerMovementSpeed;
-            }
-            else
-            {
-                playerMove.y = 0;
-            }
-            currentPlayer.GetComponent<Rigidbody2D>().velocity = playerMove;
-        }
     }
 }
